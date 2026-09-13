@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRAPPIST-1e: Signals from another Earth?</title>
+<style>
+:root {
+  --bg: #050814;
+  --panel: #0c1224;
+  --panel2: #111a31;
+  --text: #e9eefc;
+  --muted: #aab5d0;
+  --accent: #72b7ff;
+  --accent2: #a78bfa;
+  --danger: #ff5268;
+  --line: rgba(255,255,255,.10);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(114,183,255,.14), transparent 28%),
+    radial-gradient(circle at 80% 30%, rgba(167,139,250,.12), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(114,183,255,.08), transparent 35%),
+    var(--bg);
+  line-height: 1.75;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .28;
+  background-image:
+    radial-gradient(circle, white 1px, transparent 1px),
+    radial-gradient(circle, white 1px, transparent 1px);
+  background-size: 95px 95px, 137px 137px;
+  background-position: 10px 20px, 50px 80px;
+}
+.container { width: min(1050px, 92%); margin: auto; position: relative; }
+.topbar {
+  border-bottom: 1px solid var(--line);
+  background: rgba(5,8,20,.82);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar-inner {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.brand { font-weight: 800; letter-spacing: .08em; font-size: .9rem; }
+.live {
+  color: white;
+  background: var(--danger);
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+.hero {
+  padding: 90px 0 60px;
+  text-align: center;
+}
+.eyebrow {
+  display: inline-block;
+  border: 1px solid rgba(114,183,255,.35);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+h1 {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: .98;
+  margin: 22px auto;
+  max-width: 950px;
+  letter-spacing: -.045em;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 720px;
+  margin: auto;
+  font-size: 1.08rem;
+}
+.meta {
+  margin-top: 25px;
+  color: #7f8baa;
+  font-size: .85rem;
+}
+.alert {
+  margin: 35px auto 0;
+  max-width: 850px;
+  padding: 18px 22px;
+  border-left: 4px solid var(--accent);
+  background: rgba(114,183,255,.08);
+  text-align: left;
+  border-radius: 10px;
+}
+.story {
+  width: min(790px, 100%);
+  margin: 20px auto 80px;
+}
+.story h2 {
+  margin: 58px 0 12px;
+  font-size: .85rem;
+  color: var(--accent);
+  letter-spacing: .18em;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 9px;
+}
+.story p { margin: 0 0 22px; color: #dce3f5; }
+.story .kicker {
+  text-align: center;
+  color: var(--accent2);
+  font-weight: 800;
+  letter-spacing: .18em;
+  font-size: .78rem;
+  margin: 35px 0;
+}
+.highlight {
+  font-size: 1.28rem !important;
+  font-weight: 700;
+  color: white !important;
+  border-left: 3px solid var(--accent2);
+  padding: 12px 20px;
+  background: rgba(167,139,250,.06);
+  border-radius: 0 10px 10px 0;
+}
+blockquote {
+  margin: 32px 0;
+  padding: 25px 28px;
+  background: linear-gradient(135deg, rgba(114,183,255,.10), rgba(167,139,250,.08));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: #f2f5ff;
+}
+.signal-card {
+  margin: 45px 0;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+  box-shadow: 0 18px 50px rgba(0,0,0,.18);
+}
+.signal-card h3 { margin-top: 0; }
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+.stat {
+  background: rgba(0,0,0,.20);
+  border: 1px solid var(--line);
+  padding: 17px;
+  border-radius: 12px;
+}
+.stat strong { display: block; font-size: 1.35rem; color: white; }
+.stat span { color: var(--muted); font-size: .78rem; }
+.subscribe {
+  margin: 70px 0 30px;
+  padding: 34px;
+  border-radius: 20px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(114,183,255,.13), rgba(167,139,250,.13));
+  border: 1px solid rgba(114,183,255,.22);
+}
+.subscribe h2 { margin: 0 0 8px; font-size: 1.8rem; }
+.subscribe p { color: var(--muted); margin: 0 auto 20px; max-width: 580px; }
+.subscribe button {
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 25px;
+  font-weight: 800;
+  cursor: pointer;
+  background: white;
+  color: #080b16;
+}
+footer {
+  border-top: 1px solid var(--line);
+  padding: 35px 0 55px;
+  color: #71809f;
+  text-align: center;
+  font-size: .82rem;
+}
+@media (max-width: 650px) {
+  .hero { padding-top: 60px; }
+  .signal-grid { grid-template-columns: 1fr; }
+  .story { font-size: .98rem; }
+}
+@font-face {
+            font-family: 'Poppins';
+            src: url('Poppins-regular.ttf') format('truetype'); 
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+.caption {
+            /* Adjust this value to add more or less space */
+            margin-top: 10px; 
+            font-size: 1.2rem;
+        }
+
+.evidence-panel{margin:38px 0 48px;padding:26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(114,183,255,.08),rgba(167,139,250,.06))}
+.evidence-panel h3{margin:0 0 6px;font-size:1.15rem}
+.evidence-note{margin:0 0 20px!important;color:var(--muted)!important;font-size:.82rem}
+.data-table{width:100%;border-collapse:collapse;border-radius:12px;font-size:.88rem}
+.data-table th,.data-table td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left}
+.data-table th{color:var(--accent);font-size:.76rem;text-transform:uppercase;letter-spacing:.08em}
+.data-table tr:last-child td{border-bottom:0}
+.mini-chart{margin-top:28px;padding:20px 15px 10px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.16)}
+.chart-title{margin:0 0 14px;font-size:.82rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.chart{position:relative;height:210px;border-left:2px solid #60708f;border-bottom:2px solid #60708f;margin:10px 12px 35px 45px;background:linear-gradient(to bottom,transparent 24%,rgba(255,255,255,.06) 25%,transparent 26%),linear-gradient(to bottom,transparent 49%,rgba(255,255,255,.06) 50%,transparent 51%),linear-gradient(to bottom,transparent 74%,rgba(255,255,255,.06) 75%,transparent 76%)}
+.dot{position:absolute;width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px rgba(114,183,255,.75);transform:translate(-50%,50%)}
+.dot-label{position:absolute;transform:translateX(-50%);bottom:-29px;color:#8d9ab7;font-size:.68rem;white-space:nowrap}
+.y-label{position:absolute;left:-43px;color:#8d9ab7;font-size:.68rem}
+.chart-caption{margin:-22px 0 0!important;text-align:center;color:#7785a5!important;font-size:.75rem!important}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+
+    <h2 style="
+      color:#4DA3FF;
+      font-size:18px;
+      font-family:Poppins;
+      white-space:nowrap;
+      margin-right:0px;
+    ">
+      DEEP SPACE REPORT
+    </h2>
+
+    <div class="menu" style="
+      display:flex;
+      gap:60px;
+      white-space:nowrap;
+    ">
+      <span>HOME</span>
+      <span>ABOUT US</span>
+      <span>MISSIONS</span>
+      <span>CONTACT</span>
+    </div>
+
+    <div class="live" style="
+      margin-right:50px;
+      white-space:nowrap;
+    ">
+      BREAKING
+    </div>
+
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <div class="eyebrow">EXCLUSIVE • DEEP SPACE</div>
+    <h1 style="font-size: 70px"><b>TRAPPIST-1e: Signals from another Earth?</b></h1>
+    <p class="subtitle">A mysterious repeating radio signal from the TRAPPIST-1 system has astronomers questioning whether humanity is truly alone.</p>
+    <div class="meta">SPECIAL REPORT • SPACE &amp; SCIENCE</div>
+    <div class="alert"><strong>BREAKING:</strong> Researchers are investigating an unexplained signal apparently originating from the direction of TRAPPIST-1e.</div>
+  </section>
+
+  <section class="container story">
+    <div class="signal-card">
+      <h3>📡 SIGNAL ANALYSIS</h3>
+      <div class="signal-grid">
+        <div class="stat"><strong>11.6 min</strong><span>Reported pulse interval</span></div>
+        <div class="stat"><strong>1.42039 GHz</strong><span>Reported signal frequency</span></div>
+        <div class="stat"><strong>~42 ly</strong><span>Reported distance</span></div>
+      </div>
+    </div>
+
+<img src="trappist1e.png" width="300" height="300" alt="Trappist-1e Image" style="display: block; margin: 0 auto 10px auto;">
+<p style="text-align: center; font-size: 30px; font-family: 'Sniglet', sans-serif; color:#4dabf7">Clearest image of TRAPPIST-1e taken by NASA</p>
+
+    <p>Aliens have always been a hot topic. Many people have tried to attest their existence, by fabricating images of UFOs. But there are some pictures that can’t be proven fake, and famous UFO conspiracy theories about Area 51 – an air base in the USA – have been getting increasingly notorious. Let me provide some context.</p>
+<p>UFOs, also known as Unidentified Flying Objects, are mysterious flying saucers with a portrayed egg-shaped glass cockpit where aliens can control the spacecraft. Some sightings included the 1957 Levelland Lights incident, where multiple drivers have reportedly seen a glowing object in the sky which stalled engines and caused headlights to shut off, and they were only restored when those oblong objects flew away.</p>
+<p>But why is Area 51 the mentioned place when it comes to UFOs? Well.. let me introduce you to it first.</p>
+<p>Area 51 is a base in Lincoln Country, Nevada where UFOs have been allegedly kept private from the public. Conspiracy theorists believe that the remains and fragments of UFO crashes are stored inside the base. But this doesn’t really explain the previous question does it? Area 51’s intense association with extraterrestrial objects is due to many different things. Back in the mid 1950s, commercial airliners flew at 10000 to 20000 feet, while military aircraft hovered around the 40000 mark. However, the U-2 Spy Plane flew at altitudes of above 60000 feet. When sunlight hit its reflective wings at dusk, commercial pilots and air traffic controllers below saw strange, glowing objects moving at speed which were previously thought to be impossible, and this triggered a massive wave of UFO reports. Other than that, Area 51’s planes had extremely unique and bizarre designs, and basically anyone who saw these prototypes claimed that it genuinely looked like something extraterrestrial.</p>
+<p class="kicker">BACK TO THE TOPIC</p>
+<h1 style="color:lightblue;font-size:32px">THE DISCOVERY</h1>
+<p>So.. About 5 years ago, Earth has been incessantly and constantly receiving signals from TRAPPIST-1e – an ostensibly barren and rocky planet located in the habitable zone in the TRAPPIST system – every 11.6 minutes. With a $40 Billion telescope, they have also observed changes in light and the atmosphere at TRAPPIST-1e, which sparked many different theories and discussions among space enthusiasts. The team at NASA used the newly built Artemis Deep-Space Radio Array(ADRA), which was constructed extremely meticulously and customized for detecting super weak signals coming from distant astronomical objects. And with this monster, it can also translate those signals into precise readings for astronomers to probe with.</p>
+<p>The signal was first detected at a network of radio telescopes located in Goldstone, California by the ADRA. At approximately 02:17 UTC on August 14, researchers monitoring NASA's Goldstone Deep Space Communications Complex in the Mojave Desert recorded an unusually narrow radio signal originating from the direction of the TRAPPIST-1 system. Other Deep Space Networks(DSN) along with the one in Goldstone confirmed that the ‘perpetrator’ was TRAPPIST-1e, which is singularly also the most habitable planet within that system…</p>
+<p>TRAPPIST-1e – which will now be referred to as 1e – orbits in the habitable zone of its star: TRAPPIST 1. It is an ultra-cool red dwarf star located about 40.7 light-years away in the constellation Aquarius. All planets there are rocky like Earth, but only TRAPPIST-1e, f and g orbit within or near the system's habitable zone, where conditions could potentially allow liquid water. There is just one caveat though. The planet is tidally locked… Which means that one side of the planet faces the star while the other one stays in eternal darkness. Although this information is still unclear, as recent discoveries show otherwise, they are yet to be confirmed. This seven-planet system is so close to its star that the orbits could fit inside the orbit of Mercury – which is about 400 degrees celsius during the day.</p>
+<p>Compared to our Sun, TRAPPIST 1 only has about 11.9% of the Sun’s radius, which makes it slightly larger compared to Jupiter, our own solar system’s gas giant. It’s about 9% of the Sun’s mass; and due to this, it is extremely dim, shining at about 0.05% of the Sun’s light. One thing special about this is that the trappist system is actually older than the solar system, and it is estimated to be around 7.6 BILLION years old.</p>
+<h2>THE FIRST SIGNAL</h2>
+<img src="radiotelescope.jpg" alt="radio telescope" height="400px" width="600px"
+<br>
+<p>The first detection of the signal was actually from 15 years ago, but the signal was so faint and it only appeared once that the scientists overlooked it. Radio telescopes constantly detect strange signals from space, and most of them have perfectly ordinary explanations, and this is also not the first time that we have been receiving signals more than once from the same source. Stars produce radio emissions from the cooling of their core; pulsars and quasars spin rapidly emitting huge amounts of radiation from their poles; and sometimes, even human technology can accidentally produce alien signals that interfere with astronomical observations. So none of them were particularly concerned.</p>
+<h2>A STRANGE SIGNAL</h2>
+<p class="highlight">However, one characteristic of this signal was quite unusual.<br>
+It was extremely narrow.</p>
+<p>Narrow as in instead of being spread out at wide frequencies, this signal was concentrated at about 1.42039Hz. Even more strangely, this signal appeared for about 30 seconds before vanishing, seemingly disappearing forever.</p>
+<p class="highlight">Until, 11 minutes later. When scientists observed the same exact signal. Another eleven minutes passed. And again. And again.</p>
+<p>According to records which were later published by NASA, the signal repeated itself for more than 10 hours. Each occurrence was so consistent that scientists began to wonder; What if their civilization was far beyond our current development? What if those weren’t even signals? But a messenger that was trying to tell us that we were not the only ones out there.</p>
+<h2>SCIENTISTS INVESTIGATE</h2>
+<p>At first, researcher Roger Brown and many others suspected that their machinery was malfunctioning.</p>
+<blockquote>“We assumed it was an instrumental problem,” stated Roger. “When you see something so accurate, especially from outer space, your first instinct isn’t excitement. It is suspicion. For me, when I first heard about the news, I was questioning the veracity of the claim. Until it got confirmed.”</blockquote>
+<p>Of course, all the scientists and researchers started investigating. Checking for problems with their equipment. Anything that was tampered with. And even with their tenacious beliefs that it was definitely a fault, the evidence proved otherwise. Nothing was wrong with their signal capturing devices.</p>
+<h2>THE FIRST TEST</h2>
+<p>So came the final test. The team pointed the telescope away from the old system, and they waited. The signal never came. This was the first major clue.</p>
+<p>If the signal came from an interference nearby, pointing the telescope away should have kept it steady, but it was attenuated. Scientists repeated their observations multiple times. The results remained clear and tallied. That means that the signal was in fact coming from the TRAPPIST system.</p>
+<h2>RULING OUT THE OBVIOUS</h2>
+<p>After this, the team started checking and comparing the observation from known astronomical phenomena. Radio emissions from stars can sometimes be extremely powerful, particularly during stellar flares, where an intense explosion releases massive amounts of energy and particles shooting through space. But an individual immediately pointed out the issue. It can’t be a stellar flare.</p>
+<p>Stellar flares produce a much broader burst of radio energy and since it is sudden and spasmodic, the signal would not have been repeated at such a precise interval. Instead, the signal detected by ADRA appeared to consist of extremely narrow bursts occurring at regular intervals.</p>
+<h2>A NEW SUSPECT</h2>
+<p>The researchers now had the planets as the suspects. And quickly, TRAPPIST-1e became the most voted candidate for further investigation, since it is one of the most habitable planets that we have found. They could not immediately prove that the signal was coming from the planet itself. From 42 light years away, separating a radio signal from a planet and from its surrounding star can be infuriatingly cumbersome.</p>
+<h2>THE INFRARED CLUE</h2>
+<p>Nonetheless, the timing of the observations created an intriguing possibility.</p>
+<p>Every time the signal was transmitted, astronomers detected a brief increase in infrared radiation from the same small region of TRAPPIST-1e. At first, this was quickly brushed off as an adventitious coincidence. Then, they noticed something even stranger.</p>
+<div class="evidence-panel">
+<h3>📊 INFRARED OBSERVATION DATA</h3>
+<p class="evidence-note">Observation data. The distance stays constant at about 42 light-years; the changing value is the measured infrared intensity.</p>
+<table class="data-table">
+<thead><tr><th>Distance from Earth</th><th>Radio Pulse</th><th>Infrared Radiation</th></tr></thead>
+<tbody>
+<tr><td>41.75 light-years</td><td>Detected</td><td>1.00× baseline</td></tr>
+<tr><td>41.74 light-years</td><td>Detected</td><td>1.04× baseline</td></tr>
+<tr><td>41.72 light-years</td><td>Detected</td><td>1.08× baseline</td></tr>
+<tr><td>41.73 light-years</td><td>Detected</td><td>1.13× baseline</td></tr>
+<tr><td>42.70 light-years</td><td>Detected</td><td>1.17× baseline</td></tr>
+</tbody></table>
+<div class="mini-chart">
+<p class="chart-title">Relative infrared radiation during repeated pulses</p>
+<div class="chart">
+<span class="y-label" style="bottom:1%;">1.00×</span><span class="y-label" style="bottom:25%;">1.04×</span><span class="y-label" style="bottom:50%;">1.08×</span><span class="y-label" style="bottom:75%;">1.13×</span><span class="y-label" style="bottom:96%;">1.17×</span>
+<span class="dot" style="left:10%;bottom:4%;"></span><span class="dot-label" style="left:10%;">Pulse 1</span>
+<span class="dot" style="left:30%;bottom:29%;"></span><span class="dot-label" style="left:30%;">Pulse 2</span>
+<span class="dot" style="left:50%;bottom:54%;"></span><span class="dot-label" style="left:50%;">Pulse 3</span>
+<span class="dot" style="left:70%;bottom:79%;"></span><span class="dot-label" style="left:70%;">Pulse 4</span>
+<span class="dot" style="left:90%;bottom:98%;"></span><span class="dot-label" style="left:90%;">Pulse 5</span>
+</div>
+<br>
+<p class="chart-caption">Stronger radio pulses were followed by larger infrared anomalies in the fictional observations.</p>
+</div></div>
+
+<h2>THE BIG QUESTION</h2>
+<p class="highlight">But wait, if the inhabitants on 1e knew how to transmit infrared light… they must be around the same level of civilization as us, or possibly even more advanced, and that leaves me wondering? How can a planet 42 light years away even know that we exist? I mean, they have been sending the signal for more than 10 years, so they must at least have some sort of clue of our existence. </p>
+<h2>THE PATTERN</h2>
+<p>The infrared signals we received weren’t random. Each time a pulse was detected, the infrared radiation rose for approximately 2 seconds before returning back to normal. And after countless comparisons, they came to a conclusion: the stronger the radio pulse, the higher the amount of infrared radiation.</p>
+<h2>THE POSSIBILITY</h2>
+<p>This created an unsettling possibility. If the infrared radiation was actually connected to the radio transmissions, it could mean that the source of the signal was not a natural astronomical phenomenon, but an energy-consuming object located somewhere on the planet's surface. This was the first evidence of another lifeform. They might not have even originated from TRAPPIST-1e. But we know something is there.</p>
+<h2>THE LIMITS OF THE EVIDENCE</h2>
+<p>However, if we were to pinpoint the exact location on the surface where the infrared light was being transmitted from, it would be basically impossible. Even with our telescopes, 1e would merely appear as a dot, and any visualization that you see online is just a theoretical version of the planet. The signal itself didn’t enunciate any clear message. There was no voice, no language and no unmistakable pattern spelling out a message.</p>
+<h2>WHAT WE KNOW</h2>
+<p>So basically, the pulse and the infrared signal proved to be futile for now.</p>
+<p class="highlight">But we do know now that we are not the only ones in the lone space.</p>
+
+    <div class="subscribe">
+      <h2>Want more space discoveries?</h2>
+      <p>Subscribe for the latest breaking stories, mysterious signals and discoveries from beyond our solar system.</p>
+      <button onclick="this.textContent='✓ Subscribed!'">SUBSCRIBE FOR MORE</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 Deep Space Report
+</footer>
+
+</body>
+</html>
