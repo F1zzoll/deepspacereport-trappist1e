@@ -216,6 +216,27 @@ body {
   margin-top: 10px; 
   font-size: 1.2rem;
 }
+@media (max-width: 600px) {
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    main,
+    section,
+    .hero,
+    .story {
+        max-width: 100%;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
 
 .evidence-panel{margin:38px 0 48px;padding:26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(114,183,255,.08),rgba(167,139,250,.06))}
 .evidence-panel h3{margin:0 0 6px;font-size:1.15rem}
