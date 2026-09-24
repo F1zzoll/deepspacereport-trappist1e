@@ -68,7 +68,7 @@ body::before {
   letter-spacing: .08em;
 }
 .hero {
-  padding: 90px 0 60px;
+  padding: 0 0 60px;
   text-align: center;
 }
 .eyebrow {
@@ -198,25 +198,24 @@ footer {
   font-size: .82rem;
 }
 @media (max-width: 650px) {
-  .hero { padding-top: 60px; }
+  .hero { padding-top: 0; }
   .signal-grid { grid-template-columns: 1fr; }
   .story { font-size: .98rem; }
 }
 @font-face {
-            font-family: 'Poppins';
-            src: url('Poppins-regular.ttf') format('truetype'); 
-            font-weight: normal;
-            font-style: normal;
-        }
+  font-family: 'Poppins';
+  src: url('Poppins-regular.ttf') format('truetype'); 
+  font-weight: normal;
+  font-style: normal;
+}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
+body {
+  font-family: 'Poppins', sans-serif;
+}
 .caption {
-            /* Adjust this value to add more or less space */
-            margin-top: 10px; 
-            font-size: 1.2rem;
-        }
+  margin-top: 10px; 
+  font-size: 1.2rem;
+}
 
 .evidence-panel{margin:38px 0 48px;padding:26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(114,183,255,.08),rgba(167,139,250,.06))}
 .evidence-panel h3{margin:0 0 6px;font-size:1.15rem}
@@ -233,6 +232,16 @@ footer {
 .y-label{position:absolute;left:-43px;color:#8d9ab7;font-size:.68rem}
 .chart-caption{margin:-22px 0 0!important;text-align:center;color:#7785a5!important;font-size:.75rem!important}
 
+.hero-image {
+  width: 100vw;
+  height: 570px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin-left: calc(50% - 50vw);
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+}
 </style>
 </head>
 <body>
@@ -273,6 +282,9 @@ footer {
 
 <main>
   <section class="hero container">
+
+    <img class="hero-image" src="trappistsystem.jpg">
+
     <div class="eyebrow">EXCLUSIVE • DEEP SPACE</div>
     <h1 style="font-size: 70px"><b>TRAPPIST-1e: Signals from another Earth?</b></h1>
     <p class="subtitle">A mysterious repeating radio signal from the TRAPPIST-1 system has astronomers questioning whether humanity is truly alone.</p>
@@ -304,14 +316,18 @@ footer {
 <p>TRAPPIST-1e – which will now be referred to as 1e – orbits in the habitable zone of its star: TRAPPIST 1. It is an ultra-cool red dwarf star located about 40.7 light-years away in the constellation Aquarius. All planets there are rocky like Earth, but only TRAPPIST-1e, f and g orbit within or near the system's habitable zone, where conditions could potentially allow liquid water. There is just one caveat though. The planet is tidally locked… Which means that one side of the planet faces the star while the other one stays in eternal darkness. Although this information is still unclear, as recent discoveries show otherwise, they are yet to be confirmed. This seven-planet system is so close to its star that the orbits could fit inside the orbit of Mercury – which is about 400 degrees celsius during the day.</p>
 <p>Compared to our Sun, TRAPPIST 1 only has about 11.9% of the Sun’s radius, which makes it slightly larger compared to Jupiter, our own solar system’s gas giant. It’s about 9% of the Sun’s mass; and due to this, it is extremely dim, shining at about 0.05% of the Sun’s light. One thing special about this is that the trappist system is actually older than the solar system, and it is estimated to be around 7.6 BILLION years old.</p>
 <h2>THE FIRST SIGNAL</h2>
-<img src="radiotelescope.jpg" alt="radio telescope" height="400px" width="600px"
+
+<br>
+<div style="text-align: center;">
+<img src="radiotelescope.jpg" alt="radio telescope" height="400px" width="600px">
+</div>
 <br>
 <p>The first detection of the signal was actually from 15 years ago, but the signal was so faint and it only appeared once that the scientists overlooked it. Radio telescopes constantly detect strange signals from space, and most of them have perfectly ordinary explanations, and this is also not the first time that we have been receiving signals more than once from the same source. Stars produce radio emissions from the cooling of their core; pulsars and quasars spin rapidly emitting huge amounts of radiation from their poles; and sometimes, even human technology can accidentally produce alien signals that interfere with astronomical observations. So none of them were particularly concerned.</p>
 <h2>A STRANGE SIGNAL</h2>
 <p class="highlight">However, one characteristic of this signal was quite unusual.<br>
 It was extremely narrow.</p>
-<p>Narrow as in instead of being spread out at wide frequencies, this signal was concentrated at about 1.42039Hz. Even more strangely, this signal appeared for about 30 seconds before vanishing, seemingly disappearing forever.</p>
-<p class="highlight">Until, 11 minutes later. When scientists observed the same exact signal. Another eleven minutes passed. And again. And again.</p>
+<p>Narrow as in instead of being spread out at wide frequencies, this signal was concentrated at about 1.42239GHz. The neutral hydrogen line has a frequency of about 1.42GHz as well, which is used to measure the rotation and strucutre of the Milky Way. Even more strangely, this signal appeared for about 30 seconds before vanishing, seemingly disappearing forever.</p>
+<p class="highlight">Until, 11 minutes later. When scientists observed the same exact signal. Another eleven minutes passed. And again. And again. </p>
 <p>According to records which were later published by NASA, the signal repeated itself for more than 10 hours. Each occurrence was so consistent that scientists began to wonder; What if their civilization was far beyond our current development? What if those weren’t even signals? But a messenger that was trying to tell us that we were not the only ones out there.</p>
 <h2>SCIENTISTS INVESTIGATE</h2>
 <p>At first, researcher Roger Brown and many others suspected that their machinery was malfunctioning.</p>
